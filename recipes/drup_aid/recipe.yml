@@ -1,0 +1,38 @@
+# Drup-AID — the self-building, AI-Designed flavor of Drupal.
+#
+# A FULLY AUTONOMOUS Drupal that installs on an ordinary hosting account, points
+# at a cloud LLM key, and comes up running — you build and edit the site by chat.
+# No Docker, no GPU, no local LLM: the AI layer is just outbound HTTPS.
+#
+# Apply once at deploy:  drush recipe recipes/drup_aid
+# Then:                  drush php:script scripts/setup-cloud-provider.php   (point it at your key)
+#
+# NOTE: validated against Drupal 11.3.11 + ai 1.4.1 + ai_agents 1.3 +
+# ai_provider_anthropic 1.2.2 + key 1.22.0. Pin these in composer for repeatable installs.
+name: 'Drup-AID'
+description: 'A self-building AI CMS that installs on any Drupal host: Drupal + Canvas AI orchestrator + ai_agents minions driven by a cloud LLM (Anthropic by default). Point it at an API key and it runs itself.'
+type: 'Site'
+
+recipes:
+  - core/recipes/standard
+
+install:
+  # --- AI rails (pin per the versions above) ---
+  - ai                          # provider abstraction (all LLM calls)
+  - ai_provider_anthropic       # cloud provider (the brain)
+  - ai_agents                   # the minion framework + function-call tools
+  - canvas                      # page builder shell
+  - canvas_ai                   # the orchestrator / master agent
+  # --- secrets ---
+  - key                         # holds the cloud API key
+  # --- Drup-AID minion (validated end-to-end) ---
+  - peak_web_agent              # Web Editor minion: edit existing copy/images by chat
+
+config:
+  import:
+    peak_web_agent: '*'
+  # Provider + key wiring is done by scripts/setup-cloud-provider.php (it injects the
+  # API key from the environment, never from committed config). Keeping actions empty
+  # keeps `drush recipe` apply-safe / idempotent.
+  actions:
+    {}

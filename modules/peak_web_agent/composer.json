@@ -1,0 +1,10 @@
+{
+    "name": "drelf/peak_web_agent",
+    "type": "drupal-module",
+    "description": "Guardrailed Web Design Editor AI sub-agent (minion) for the Peak Stack Master Agent — edit website copy and images by chatting, content-values only, every change a rollback-able revision.",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "drupal/ai": "*",
+        "drupal/ai_agents": "*"
+    }
+}

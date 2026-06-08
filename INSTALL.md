@@ -1,0 +1,56 @@
+# Installing Drup-AID
+
+Drup-AID installs on any host that can run Drupal 11 — no Docker, no GPU. The AI
+layer only makes outbound HTTPS calls to your LLM provider.
+
+## Requirements
+
+- **Drupal 11.3+** on PHP **8.3+** with Composer (most modern shared hosts + all VPS/managed hosts qualify; Hostinger included).
+- An **Anthropic API key** (`sk-ant-…`). OpenAI works too — swap `ai_provider_anthropic` → `ai_provider_openai` and set that model in the setup step.
+- Drush available (`vendor/bin/drush`).
+
+> **Patched core matters.** Install on a current core (11.3.11+ at time of writing). Composer's security audit will refuse to install the AI modules over a core with open advisories — which is also a good signal to keep core patched.
+
+## Steps
+
+**1. Require the AI rails** (validated versions):
+
+```bash
+composer require \
+  drupal/ai:^1.4 \
+  drupal/ai_provider_anthropic \
+  drupal/ai_agents \
+  drupal/canvas \
+  drupal/canvas_ai \
+  drupal/key
+```
+
+**2. Add the Drup-AID minion + recipe** to your project: copy `modules/peak_web_agent`
+into `web/modules/custom/` and `recipes/drup_aid` into your site's `recipes/` directory
+(or require this repo as a path/VCS Composer repository).
+
+**3. Apply the recipe:**
+
+```bash
+drush recipe recipes/drup_aid
+```
+
+This enables the AI rails + the Web Editor minion and registers it under the orchestrator.
+
+**4. Point it at your key** (the one config step — the key is read from the environment, never committed):
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-... drush php:script scripts/setup-cloud-provider.php
+# optional: DRUPAID_MODEL=claude-sonnet-4-6 for higher quality (costs more)
+```
+
+**5. Use it.** Log in as an editor and chat (via the AI assistant / Canvas AI):
+> *"Change the homepage headline to 'Fiber that just works.'"*
+
+The minion reads the page, makes the edit, and saves it as a **new, rollback-able revision**.
+
+## Notes & gotchas
+
+- **Permissions:** the minion writes as the **logged-in user**, so chat under an account with edit access. For unattended/background runs, give the agent a `masquerade_roles` or run it under an authorized account, or writes return "Access denied."
+- **Tool rule:** only executable (`ExecutableFunctionCallInterface`) tools belong in a minion's `tools:` list — never a `Children/` schema tool. (This is the one bug that bit us; the shipped minion is correct.)
+- **Model choice:** `claude-haiku-4-5-20251001` (default) is cheap and strong at tool-use; bump to a Sonnet/Opus model for higher-quality copy.

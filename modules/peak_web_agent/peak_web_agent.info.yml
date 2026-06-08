@@ -1,0 +1,9 @@
+name: 'Peak Web Agent'
+type: module
+description: 'Adds a guardrailed "Web Design Editor" AI sub-agent (minion) that lets you edit website COPY and images on existing pages by chatting in plain language — routed by the Master Agent. Content-values only: it cannot delete content or change site structure, and every change is a rollback-able Drupal revision. Part of Peak Stack.'
+package: 'Peak Stack'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - 'ai:ai'
+  - 'ai_agents:ai_agents'
+  - 'drupal:node'
