@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/drup-aid-mascot.png" alt="Drup-AID" width="300">
+  <img src="assets/drupaid-mascot-v2.png" alt="Drup-AID" width="300">
 </p>
 
 <h1 align="center">Drup-AID</h1>

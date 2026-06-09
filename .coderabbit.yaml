@@ -1,0 +1,50 @@
+# CodeRabbit configuration — Drup-AID (public give-back repo)
+# Pre-release validation pass before the v0.1 announcement.
+# Reference: https://docs.coderabbit.ai/reference/configuration
+language: en-US
+
+reviews:
+  profile: assertive            # thorough — this is a release-gate review, not a quick skim
+  request_changes_workflow: false
+  high_level_summary: true
+  review_status: true
+  poem: false
+  auto_review:
+    enabled: true
+    drafts: false
+  # Don't waste review budget on binary/brand assets
+  path_filters:
+    - "!assets/**"
+    - "!**/*.png"
+    - "!**/*.svg"
+    - "!**/*.jpg"
+  # Teach CodeRabbit OUR standards so the review enforces the constitution
+  path_instructions:
+    - path: "modules/**/*.php"
+      instructions: >
+        Drupal 11 module code. Enforce: PSR-4 + Drupal\ namespace; constructor
+        dependency injection with a static create() over \Drupal::service() in
+        business logic; the Drupal entity/database API (EntityQuery / query
+        builder) over raw or string-concatenated SQL; output sanitization via
+        Xss::filter() / Html::escape() (never trust AI-generated HTML); access
+        checks on every route and controller (no _access: TRUE on
+        state-changing or data endpoints); no secrets/tokens/keys hardcoded in
+        source (must come from the Key module or environment). Flag any of
+        these as blocking.
+    - path: "modules/**/templates/**"
+      instructions: >
+        Twig templates. {{ value }} auto-escapes; treat every {{ value|raw }}
+        as a deliberate trust assertion and flag it for justification. No inline
+        <script> logic or style="" attributes — markup belongs in module
+        libraries.
+    - path: "recipes/**"
+      instructions: >
+        Drupal Recipe config. Flag config.import actions that error on re-apply;
+        prefer create_if_not_exists / ensure_exists so the recipe is idempotent.
+    - path: "scripts/**"
+      instructions: >
+        Setup/bootstrap scripts. Flag hardcoded credentials, unquoted paths,
+        and missing fail-fast error handling.
+
+chat:
+  auto_reply: true
