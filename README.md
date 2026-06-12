@@ -48,7 +48,7 @@ drush recipe recipes/drup_aid
 ANTHROPIC_API_KEY=sk-ant-... drush php:script scripts/setup-cloud-provider.php
 ```
 
-Full steps: see [INSTALL.md](INSTALL.md). The minions are described in [AGENTS.md](AGENTS.md).
+Full steps: see [INSTALL.md](INSTALL.md). The minions are described in [AGENTS.md](AGENTS.md). **Once installed, see [USING.md](USING.md) for every way to talk to your agents** — Canvas AI chat, the Agent Explorer, the site chat block, and drush.
 
 ## The build ladder
 
