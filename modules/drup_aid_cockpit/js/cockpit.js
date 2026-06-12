@@ -138,6 +138,20 @@
     this.appendUser(text);
     this.setActive(this.master ? this.master.id : null, true);
 
+    // The explorer transport is stateless — each run only sees its prompt.
+    // Carry the conversation so short replies ("yes", "the about page")
+    // land with their context instead of triggering clarify-loops.
+    this.history = this.history || [];
+    var prompt = text;
+    if (this.history.length) {
+      var lines = this.history.slice(-8).map(function (turn) {
+        return (turn.role === 'user' ? 'User: ' : 'You (master): ') + turn.text;
+      });
+      prompt = 'Conversation so far:\n' + lines.join('\n') +
+        '\n\nThe user\'s new message (respond to THIS, with the conversation above as context): ' + text;
+    }
+    this.history.push({ role: 'user', text: text.slice(0, 500) });
+
     var runnerId = (window.crypto && crypto.randomUUID)
       ? crypto.randomUUID()
       : 'dac-' + Date.now() + '-' + Math.random().toString(16).slice(2);
@@ -167,7 +181,7 @@
     var timer = setInterval(poll, 1500);
 
     var body = new FormData();
-    body.append('prompt', text);
+    body.append('prompt', prompt);
     body.append('agent', this.live.agent);
     body.append('model', this.live.model);
     body.append('runner_id', runnerId);
@@ -180,6 +194,7 @@
         typing.remove();
         var msg = data.message || data.error || 'No response.';
         msg = msg.replace(/^Status:\s*[^,]+,\s*Response:\s*/i, '');
+        self.history.push({ role: 'master', text: msg.slice(0, 500) });
         self.appendAgent(self.master, msg, false);
         self.taskbarProgress.textContent = data.success ? 'Complete ✓' : 'Failed';
         self.busy = false;
@@ -195,11 +210,14 @@
 
   // Map one decision-log entry to the theatre: sub-agent entries become that
   // droplet's bubble; master/internal steps go to the activity pane.
+  // Attribution uses the entry LABEL only — the payload often QUOTES agent
+  // names (e.g. the master introducing its team), which must not cause the
+  // whole reply to render as that agent speaking.
   Cockpit.prototype.renderDecision = function (entry) {
-    var hay = (entry.label || '') + ' ' + (entry.json || '');
+    var label = entry.label || '';
     var agent = null;
     for (var i = 0; i < this.agents.length; i++) {
-      if (hay.indexOf(this.agents[i].id) !== -1) {
+      if (label.indexOf(this.agents[i].id) !== -1) {
         agent = this.agents[i];
         break;
       }
