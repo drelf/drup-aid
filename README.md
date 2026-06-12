@@ -33,9 +33,9 @@ Recipe (drup_aid)  ─►  ai + ai_agents + canvas_ai + ai_provider_anthropic + 
 Drup-AID separates **what your customers see** from **how you change what your business does**:
 
 - **The site (Drupal + AI agents)** — what visitors experience: content, support chat, knowledge base, tickets. The owner changes it by talking to the agent team. This core flavor needs no extra services.
-- **Visual automations (optional n8n layer)** — the operator's surface. Business automations — lead follow-up, marketing sequences, billing nudges — live as *visual flows*: boxes and arrows a non-developer can open, read, and safely edit. Drag, click, save — no code. This layer powers the commercial business-agent tiers, and novice-editable flows are a core part of the design, not an afterthought.
+- **Visual automations (the n8n layer)** — the operations half of the platform, and the operator's surface. Business automations — lead follow-up, marketing sequences, billing nudges — live as *visual flows*: boxes and arrows a non-developer can open, read, and safely edit. Drag, click, save — no code. Everything your business *does* runs through this layer, and novice-editable flows are a core part of the design, not an add-on.
 
-The core flavor never requires the automation layer to run — but with it, the back office becomes something you can *see*.
+The starter flavor installs and runs before you connect the automation layer — but Drup-AID is whole when both halves are running: the site your customers see, and the flows that run the business behind it.
 
 ## Quick start
 
