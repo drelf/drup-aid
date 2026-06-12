@@ -272,7 +272,8 @@
     this.appendUser(text);
     this.setActive(this.master ? this.master.id : null, true);
 
-    var picks = this.agents.slice(0, 3);
+    // The demo showcases the WHOLE roster — it is the first impression.
+    var picks = this.agents.slice();
     this.startTask(text, picks);
     var chain = Promise.resolve();
 
