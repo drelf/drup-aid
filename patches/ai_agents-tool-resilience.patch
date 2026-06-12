@@ -1,0 +1,19 @@
+--- a/src/PluginBase/AiAgentEntityWrapper.php
++++ b/src/PluginBase/AiAgentEntityWrapper.php
+@@ -1303,7 +1303,15 @@
+     // agent decision or an automatic default information tool.
+     $tool_pre_execution = new AgentToolPreExecuteEvent($this, $this->runnerId, $tool, $tool->getToolsId(), $this->threadId, $this->callerAgentRunnerId, $progress_message, $agent_decision);
+     $this->eventDispatcher->dispatch($tool_pre_execution, AgentToolPreExecuteEvent::EVENT_NAME);
+-    $tool->execute();
++    try {
++      $tool->execute();
++    }
++    catch (\Throwable $e) {
++      // LOCAL PATCH (Drup-AID): feed tool failures back to the agent loop as a
++      // tool RESULT instead of fataling the entire run, so the model can
++      // self-correct (e.g. retry with a valid entity type). Upstream issue TBD.
++      $tool->setOutput("TOOL ERROR (recoverable): " . $e->getMessage() . " -- adjust parameters or use a different tool; do not repeat the same call.");
++    }
+     // Trigger post execution event for all tools.
+     $tool_executed = new AgentToolFinishedExecutionEvent($this, $this->runnerId, $tool, $tool->getToolsId(), $this->threadId, $this->callerAgentRunnerId, $progress_message, $agent_decision);
+     $this->eventDispatcher->dispatch($tool_executed, AgentToolFinishedExecutionEvent::EVENT_NAME);

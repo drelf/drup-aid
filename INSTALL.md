@@ -60,6 +60,19 @@ The minion reads the page, makes the edit, and saves it as a **new, rollback-abl
 
 ## Notes & gotchas
 
+- **Recommended patch — agent runs survive tool errors:** in `ai_agents` 1.3.x a tool that throws (e.g. an agent guessing a non-existent entity type) fatals the ENTIRE agent run; the module catches two exception types but a `LogicException` from entity introspection escapes. `patches/ai_agents-tool-resilience.patch` wraps tool execution so failures return to the model as a recoverable tool result (it self-corrects). Apply via [cweagans/composer-patches](https://github.com/cweagans/composer-patches):
+
+  ```json
+  "extra": {
+    "patches": {
+      "drupal/ai_agents": {
+        "Tool errors should not fatal the whole agent run": "patches/ai_agents-tool-resilience.patch"
+      }
+    }
+  }
+  ```
+
+  We found this via live agent roll-call testing (see the closed issues); upstream report to drupal.org is pending.
 - **Shared hosting (`public_html` docroots):** set the scaffold `web-root` to your host's docroot **before** running `composer install` — e.g. `"web-root": "public_html/"` in `extra.drupal-scaffold.locations` (with matching `installer-paths`). **Never rename the webroot after building:** composer bakes the path into the generated autoloader and everything downstream — including drush — fails *silently*. We burned a session on exactly this; a textbook "session-time risk."
 - **Drush 13 on restricted shared hosts:** the `vendor/bin/drush` bash launcher can exit silently. Call the PHP entrypoint directly: `php vendor/drush/drush/drush.php --root=/path/to/webroot --uri=https://example.com <command>`.
 - **Permissions:** the minion writes as the **logged-in user**, so chat under an account with edit access. For unattended/background runs, give the agent a `masquerade_roles` or run it under an authorized account, or writes return "Access denied."
