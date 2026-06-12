@@ -51,6 +51,8 @@ The minion reads the page, makes the edit, and saves it as a **new, rollback-abl
 
 ## Notes & gotchas
 
+- **Shared hosting (`public_html` docroots):** set the scaffold `web-root` to your host's docroot **before** running `composer install` — e.g. `"web-root": "public_html/"` in `extra.drupal-scaffold.locations` (with matching `installer-paths`). **Never rename the webroot after building:** composer bakes the path into the generated autoloader and everything downstream — including drush — fails *silently*. We burned a session on exactly this; a textbook "session-time risk."
+- **Drush 13 on restricted shared hosts:** the `vendor/bin/drush` bash launcher can exit silently. Call the PHP entrypoint directly: `php vendor/drush/drush/drush.php --root=/path/to/webroot --uri=https://example.com <command>`.
 - **Permissions:** the minion writes as the **logged-in user**, so chat under an account with edit access. For unattended/background runs, give the agent a `masquerade_roles` or run it under an authorized account, or writes return "Access denied."
 - **Tool rule:** only executable (`ExecutableFunctionCallInterface`) tools belong in a minion's `tools:` list — never a `Children/` schema tool. (This is the one bug that bit us; the shipped minion is correct.)
 - **Model choice:** `claude-haiku-4-5-20251001` (default) is cheap and strong at tool-use; bump to a Sonnet/Opus model for higher-quality copy.
