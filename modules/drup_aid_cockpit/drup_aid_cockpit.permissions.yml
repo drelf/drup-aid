@@ -1,0 +1,4 @@
+access drup-aid cockpit:
+  title: 'Access the Drup-AID agent cockpit'
+  description: 'Watch and steer the master agent and its sub-agents.'
+  restrict access: true

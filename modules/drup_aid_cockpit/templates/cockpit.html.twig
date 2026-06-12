@@ -1,0 +1,77 @@
+{#
+/**
+ * @file
+ * Drup-AID agent cockpit — three panes: roster (left), conversation theatre
+ * (centre), activity/payload (right). The conversation is rendered by
+ * cockpit.js; this template lays out the shell and the derived roster.
+ *
+ * Available variables:
+ * - master: the orchestrator agent descriptor (id, label, blurb, avatar, color).
+ * - agents: the sub-agents the master delegates to.
+ */
+#}
+<div class="dac" data-drup-aid-cockpit>
+
+  <aside class="dac__roster">
+    <div class="dac__roster-head">Your team</div>
+    {% if master %}
+      <div class="dac-agent dac-agent--master is-active" data-agent-id="{{ master.id }}" data-color="{{ master.color }}">
+        <span class="dac-agent__badge">{% if master.avatar %}<img src="{{ master.avatar }}" alt="">{% else %}<span class="dac-initial">{{ master.initial }}</span>{% endif %}</span>
+        <span class="dac-agent__meta">
+          <span class="dac-agent__name">{{ master.label }}</span>
+          <span class="dac-agent__role">Orchestrator</span>
+        </span>
+      </div>
+    {% endif %}
+    <div class="dac__roster-sub">Specialists ({{ agents|length }})</div>
+    {% for a in agents %}
+      <div class="dac-agent" data-agent-id="{{ a.id }}" data-color="{{ a.color }}" title="{{ a.blurb }}">
+        <span class="dac-agent__badge">{% if a.avatar %}<img src="{{ a.avatar }}" alt="">{% else %}<span class="dac-initial">{{ a.initial }}</span>{% endif %}</span>
+        <span class="dac-agent__meta">
+          <span class="dac-agent__name">{{ a.label }}</span>
+        </span>
+      </div>
+    {% endfor %}
+  </aside>
+
+  <section class="dac__main">
+    <header class="dac__hub">
+      <div class="dac__hub-title">
+        {% if master and master.avatar %}<img class="dac__hub-master" src="{{ master.avatar }}" alt="">{% endif %}
+        <div class="dac__hub-text">
+          <strong>Drup-AID Cockpit</strong>
+          <span class="dac__hub-sub">Talk to your team &mdash; watch them work.</span>
+        </div>
+      </div>
+      <div class="dac__hub-actions">
+        {% if master %}<a class="dac__profiles-link" href="{{ path('drup_aid_cockpit.profile', {'agent': master.id}) }}">Agent profiles &rarr;</a>{% endif %}
+        <span class="dac__mode" title="Live agent runs wire to the AI Agents trace next.">Demo mode</span>
+      </div>
+    </header>
+
+    <div class="dac__taskbar" data-dac-taskbar hidden>
+      <span class="dac__taskbar-label" data-dac-taskbar-label></span>
+      <span class="dac__taskbar-progress" data-dac-taskbar-progress></span>
+    </div>
+
+    <div class="dac__thread" data-dac-thread></div>
+
+    <form class="dac__input" data-dac-form>
+      <input type="text" class="dac__field" data-dac-field autocomplete="off"
+             placeholder="Ask your team to build a page, write a post, run an audit&hellip;">
+      <button type="submit" class="dac__send" aria-label="Send">&#9658;</button>
+    </form>
+  </section>
+
+  <aside class="dac__payload">
+    <div class="dac__payload-head">Task status</div>
+    <div class="dac__tasks" data-dac-tasks>
+      <p class="dac__payload-empty">No active task &mdash; ask the team to do something.</p>
+    </div>
+    <div class="dac__payload-head dac__payload-head--sep">Activity</div>
+    <div class="dac__payload-body" data-dac-activity>
+      <p class="dac__payload-empty">What the team does will show up here.</p>
+    </div>
+  </aside>
+
+</div>

@@ -28,6 +28,14 @@ Recipe (drup_aid)  ─►  ai + ai_agents + canvas_ai + ai_provider_anthropic + 
    chat: "change the homepage headline to X"  ─►  the minion edits the node (rollback-able revision)
 ```
 
+## The Agent Cockpit
+
+`modules/drup_aid_cockpit` ships a "team chat" admin screen at `/admin/drup-aid/cockpit`: the master agent and every specialist in one room. Send a request, watch the master delegate, and see each agent's work land as its own chat bubble. Click any agent for its full profile — model, skills, MCP servers, team.
+
+- **Demo mode (default):** a scripted, zero-cost walkthrough of the delegation flow.
+- **Live mode (opt-in):** click the mode badge to run your real agents through the AI Agents Explorer transport. Every send uses your AI provider credits, so it asks before going live.
+- **Artwork:** ships with neutral initial badges; drop PNGs into `images/agents/` to skin your team.
+
 ## The two-persona design
 
 Drup-AID separates **what your customers see** from **how you change what your business does**:

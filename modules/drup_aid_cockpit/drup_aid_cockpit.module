@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Drup-AID Cockpit — registers the cockpit page theme hook.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function drup_aid_cockpit_theme($existing, $type, $theme, $path): array {
+  return [
+    'drup_aid_cockpit' => [
+      'template' => 'cockpit',
+      'variables' => [
+        'master' => [],
+        'agents' => [],
+      ],
+    ],
+    'drup_aid_cockpit_profile' => [
+      'template' => 'cockpit-profile',
+      'variables' => [
+        'profile' => [],
+      ],
+    ],
+  ];
+}

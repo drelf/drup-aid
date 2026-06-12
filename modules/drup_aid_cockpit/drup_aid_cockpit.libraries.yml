@@ -1,0 +1,17 @@
+cockpit:
+  css:
+    theme:
+      css/cockpit.css: {}
+  js:
+    js/cockpit.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - core/drupalSettings
+
+profile:
+  css:
+    theme:
+      css/cockpit-profile.css: {}
+  dependencies:
+    - core/drupal

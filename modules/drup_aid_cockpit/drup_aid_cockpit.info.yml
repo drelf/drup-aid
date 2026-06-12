@@ -1,0 +1,8 @@
+name: 'Drup-AID Cockpit'
+type: module
+description: 'The agent cockpit — watch the Drup-AID master agent and its sub-agents work, and steer them, in one branded admin screen.'
+package: 'Drup-AID'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - ai:ai
+  - ai_agents:ai_agents

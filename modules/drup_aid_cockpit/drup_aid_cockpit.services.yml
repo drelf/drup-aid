@@ -1,0 +1,4 @@
+services:
+  drup_aid_cockpit.roster:
+    class: Drupal\drup_aid_cockpit\Service\AgentRoster
+    arguments: ['@entity_type.manager', '@extension.list.module']

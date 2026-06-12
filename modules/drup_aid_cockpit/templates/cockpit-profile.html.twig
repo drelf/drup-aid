@@ -1,0 +1,67 @@
+{#
+/**
+ * @file
+ * Drup-AID agent profile — the Nous-style composition view: Identity, Model,
+ * Skills, MCP servers, and (for the master) the Team.
+ *
+ * Available variables:
+ * - profile: { id, label, description, avatar, color, model, skills[], mcp[],
+ *   team[{id,label}], is_master }
+ */
+#}
+<div class="dac-profile" style="--accent: {{ profile.color }}">
+
+  <a class="dac-profile__back" href="{{ path('drup_aid_cockpit.cockpit') }}">&larr; Cockpit</a>
+
+  <header class="dac-profile__head">
+    <span class="dac-profile__avatar">{% if profile.avatar %}<img src="{{ profile.avatar }}" alt="">{% else %}<span class="dac-initial dac-initial--lg">{{ profile.initial }}</span>{% endif %}</span>
+    <div class="dac-profile__id">
+      <h1 class="dac-profile__name">{{ profile.label }}</h1>
+      <span class="dac-profile__role">{{ profile.is_master ? 'Orchestrator' : 'Specialist agent' }}</span>
+      {% if profile.description %}<p class="dac-profile__desc">{{ profile.description }}</p>{% endif %}
+    </div>
+  </header>
+
+  <div class="dac-profile__grid">
+
+    <section class="dac-card">
+      <h2 class="dac-card__title">Model</h2>
+      <p class="dac-card__lead">{{ profile.model }}</p>
+    </section>
+
+    <section class="dac-card">
+      <h2 class="dac-card__title">Skills <span class="dac-card__count">{{ profile.skills|length }}</span></h2>
+      {% if profile.skills %}
+        <ul class="dac-chips">
+          {% for s in profile.skills %}<li class="dac-chip">{{ s }}</li>{% endfor %}
+        </ul>
+      {% else %}
+        <p class="dac-card__empty">No skills configured.</p>
+      {% endif %}
+    </section>
+
+    <section class="dac-card">
+      <h2 class="dac-card__title">MCP servers <span class="dac-card__count">{{ profile.mcp|length }}</span></h2>
+      {% if profile.mcp %}
+        <ul class="dac-chips">
+          {% for m in profile.mcp %}<li class="dac-chip dac-chip--mcp">{{ m }}</li>{% endfor %}
+        </ul>
+      {% else %}
+        <p class="dac-card__empty">None attached.
+          <span class="dac-card__hint">Attach HTTP or stdio MCP servers to extend this agent.</span></p>
+      {% endif %}
+    </section>
+
+    {% if profile.is_master and profile.team %}
+    <section class="dac-card dac-card--wide">
+      <h2 class="dac-card__title">Team <span class="dac-card__count">{{ profile.team|length }}</span></h2>
+      <ul class="dac-team">
+        {% for t in profile.team %}
+          <li><a class="dac-team__link" href="{{ path('drup_aid_cockpit.profile', {'agent': t.id}) }}">{{ t.label }} &rarr;</a></li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+
+  </div>
+</div>

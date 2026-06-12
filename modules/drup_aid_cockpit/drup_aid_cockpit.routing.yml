@@ -1,0 +1,15 @@
+drup_aid_cockpit.cockpit:
+  path: '/admin/drup-aid/cockpit'
+  defaults:
+    _controller: '\Drupal\drup_aid_cockpit\Controller\CockpitController::page'
+    _title: 'Agent Cockpit'
+  requirements:
+    _permission: 'access drup-aid cockpit'
+
+drup_aid_cockpit.profile:
+  path: '/admin/drup-aid/cockpit/profile/{agent}'
+  defaults:
+    _controller: '\Drupal\drup_aid_cockpit\Controller\CockpitController::profile'
+    _title: 'Agent Profile'
+  requirements:
+    _permission: 'access drup-aid cockpit'

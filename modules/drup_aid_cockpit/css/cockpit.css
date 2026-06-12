@@ -1,0 +1,458 @@
+/**
+ * @file
+ * Drup-AID agent cockpit styles. Scoped under .dac so it never leaks into the
+ * surrounding admin theme. Per-agent accent colour arrives as the
+ * --agent-color custom property, set by cockpit.js from each element's
+ * data-color attribute.
+ */
+
+.dac {
+  --dac-dark: #081826;
+  --dac-panel: #0e2236;
+  --dac-panel-2: #14304a;
+  --dac-line: rgba(255, 255, 255, 0.08);
+  --dac-text: #e8f2fb;
+  --dac-muted: #8aa6bf;
+  --dac-blue: #0678be;
+  --dac-accent: #00d4ff;
+  --agent-color: var(--dac-accent);
+
+  display: grid;
+  grid-template-columns: 264px 1fr 300px;
+  gap: 1px;
+  background: var(--dac-line);
+  height: calc(100vh - 240px);
+  min-height: 560px;
+  border: 1px solid var(--dac-line);
+  border-radius: 14px;
+  overflow: hidden;
+  color: var(--dac-text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ---- Roster (left) ---- */
+.dac__roster {
+  background: var(--dac-panel);
+  padding: 18px 14px;
+  overflow-y: auto;
+}
+.dac__roster-head,
+.dac__roster-sub {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dac-muted);
+  margin: 0 0 10px 6px;
+}
+.dac__roster-sub {
+  margin-top: 22px;
+}
+.dac-agent {
+  --agent-color: var(--dac-accent);
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px;
+  border-radius: 12px;
+  transition: background 0.2s, opacity 0.2s, filter 0.2s;
+  opacity: 0.45;
+  filter: grayscale(0.5);
+}
+.dac-agent.is-active {
+  opacity: 1;
+  filter: none;
+  background: var(--dac-panel-2);
+}
+.dac-agent__badge {
+  position: relative;
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.06), transparent 70%);
+  box-shadow: 0 0 0 2px var(--agent-color) inset;
+}
+.dac-agent.is-active .dac-agent__badge {
+  box-shadow: 0 0 0 2px var(--agent-color) inset, 0 0 14px -1px var(--agent-color);
+}
+.dac-agent__badge img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.dac-agent--master .dac-agent__badge {
+  width: 52px;
+  height: 52px;
+}
+.dac-agent--master .dac-agent__badge img {
+  width: 46px;
+  height: 46px;
+}
+.dac-agent__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.dac-agent__name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dac-agent__role {
+  font-size: 0.72rem;
+  color: var(--dac-accent);
+}
+
+/* ---- Main (centre) ---- */
+.dac__main {
+  background: var(--dac-dark);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  /* Grid items default to min-height:auto, which lets long messages stretch
+     the column past the shell instead of scrolling the thread. */
+  min-height: 0;
+}
+.dac__thread {
+  min-height: 0;
+}
+.dac__hub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--dac-line);
+  background: linear-gradient(180deg, var(--dac-panel), transparent);
+}
+.dac__hub-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dac__hub-master {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.5));
+}
+.dac__hub-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.dac__hub-sub {
+  font-size: 0.8rem;
+  color: var(--dac-muted);
+}
+/* Initials badge — the avatar fallback when no artwork is installed. */
+.dac-initial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--agent-color, var(--dac-accent));
+  color: #06121f;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.dac-initial--lg {
+  width: 72px;
+  height: 72px;
+  font-size: 1.8rem;
+}
+
+.dac__hub-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dac__profiles-link {
+  font-size: 0.78rem;
+  color: var(--dac-text);
+  text-decoration: none;
+  border: 1px solid var(--dac-line);
+  border-radius: 999px;
+  padding: 4px 12px;
+  transition: border-color 0.15s, color 0.15s;
+}
+.dac__profiles-link:hover {
+  color: var(--dac-accent);
+  border-color: rgba(0, 212, 255, 0.5);
+}
+.dac__mode {
+  font-size: 0.72rem;
+  color: var(--dac-accent);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  border-radius: 999px;
+  padding: 3px 10px;
+  cursor: help;
+}
+
+.dac__thread {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---- Message bubbles ---- */
+.dac-msg {
+  --agent-color: var(--dac-accent);
+  display: flex;
+  gap: 11px;
+  max-width: 88%;
+  animation: dac-rise 0.22s ease both;
+}
+.dac-msg--sub {
+  margin-left: 28px;
+}
+.dac-msg--user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.dac-msg__avatar {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--dac-panel-2);
+  box-shadow: 0 0 0 2px var(--agent-color) inset;
+}
+.dac-msg__avatar img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+.dac-msg__avatar--user {
+  font-size: 1.1rem;
+  box-shadow: 0 0 0 2px var(--dac-muted) inset;
+}
+.dac-msg__body {
+  min-width: 0;
+}
+.dac-msg__name {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--agent-color);
+  margin-bottom: 3px;
+}
+.dac-msg__bubble {
+  background: var(--dac-panel);
+  border: 1px solid var(--dac-line);
+  border-left: 3px solid var(--agent-color);
+  border-radius: 4px 12px 12px 12px;
+  padding: 10px 14px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.dac-msg--user .dac-msg__bubble {
+  background: var(--dac-blue);
+  border: none;
+  border-radius: 12px 4px 12px 12px;
+}
+
+/* typing indicator */
+.dac-typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px 2px;
+}
+.dac-typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--agent-color);
+  opacity: 0.5;
+  animation: dac-blink 1.2s infinite both;
+}
+.dac-typing span:nth-child(2) { animation-delay: 0.2s; }
+.dac-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ---- Payload (right) ---- */
+.dac__payload {
+  background: var(--dac-panel);
+  padding: 18px 16px;
+  overflow-y: auto;
+}
+.dac__payload-head {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dac-muted);
+  margin-bottom: 12px;
+}
+.dac__payload-empty {
+  font-size: 0.85rem;
+  color: var(--dac-muted);
+}
+.dac__payload-head--sep {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--dac-line);
+}
+
+/* ---- Task bar (above the chat) ---- */
+.dac__taskbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 14px 20px 0;
+  padding: 9px 14px;
+  background: var(--dac-panel-2);
+  border: 1px solid var(--dac-line);
+  border-left: 3px solid var(--dac-accent);
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+.dac__taskbar[hidden] { display: none; }
+.dac__taskbar-label {
+  color: var(--dac-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dac__taskbar-progress {
+  flex: 0 0 auto;
+  color: var(--dac-accent);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Task status list (right pane) ---- */
+.dac__tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.dac-task {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.84rem;
+  padding: 7px 9px;
+  border-radius: 8px;
+  background: var(--dac-dark);
+  border: 1px solid var(--dac-line);
+}
+.dac-task__icon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--dac-muted);
+  display: grid;
+  place-items: center;
+  font-size: 0.7rem;
+  color: var(--dac-dark);
+}
+.dac-task__name {
+  flex: 1 1 auto;
+  color: var(--dac-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dac-task__pill {
+  flex: 0 0 auto;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--dac-muted);
+}
+/* queued (default) */
+.dac-task--working .dac-task__icon {
+  border-color: var(--dac-accent);
+  box-shadow: 0 0 8px -1px var(--dac-accent);
+  animation: dac-blink 1.1s infinite both;
+}
+.dac-task--working .dac-task__pill { color: var(--dac-accent); }
+.dac-task--done .dac-task__icon {
+  border-color: #22c55e;
+  background: #22c55e;
+}
+.dac-task--done .dac-task__icon::after { content: "\2713"; }
+.dac-task--done .dac-task__pill { color: #22c55e; }
+.dac-activity {
+  display: flex;
+  gap: 9px;
+  font-size: 0.82rem;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--dac-line);
+  animation: dac-rise 0.22s ease both;
+}
+.dac-activity__dot {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--agent-color);
+}
+.dac-activity__who {
+  font-weight: 600;
+  color: var(--dac-text);
+}
+.dac-activity__what {
+  color: var(--dac-muted);
+}
+
+/* ---- Input ---- */
+.dac__input {
+  display: flex;
+  gap: 10px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--dac-line);
+  background: var(--dac-panel);
+}
+.dac__field {
+  flex: 1 1 auto;
+  background: var(--dac-dark);
+  border: 1px solid var(--dac-line);
+  border-radius: 999px;
+  padding: 11px 18px;
+  color: var(--dac-text);
+  font-size: 0.92rem;
+}
+.dac__field:focus {
+  outline: none;
+  border-color: var(--dac-accent);
+}
+.dac__send {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: var(--dac-blue);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.dac__send:hover { background: var(--dac-accent); color: var(--dac-dark); }
+.dac__send:active { transform: scale(0.94); }
+
+@keyframes dac-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes dac-blink {
+  0%, 100% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-2px); }
+}
+
+@media (max-width: 1100px) {
+  .dac { grid-template-columns: 220px 1fr; }
+  .dac__payload { display: none; }
+}

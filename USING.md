@@ -25,11 +25,16 @@ drush php:script your-script.php   # run an agent from code
 ```
 Inside the script, load and run an agent via the `plugin.manager.ai_agents` service. Useful for cron-driven agent work and CI. (Tip from our own use: on restricted shared hosts, call drush as `php vendor/drush/drush/drush.php --root=... --uri=...` — see [INSTALL.md](INSTALL.md).)
 
+## 5. The Agent Cockpit — the whole team in one room
+
+Enable `drup_aid_cockpit` and go to **`/admin/drup-aid/cockpit`**: your master agent and every specialist as a chat roster. Send a request and watch the delegation happen — each agent's work appears as its own bubble. Starts in a zero-cost demo mode; click the mode badge to go live (uses your AI provider credits, and says so first).
+
 ## Which one should I use?
 
 | You want to... | Use |
 |---|---|
 | Build or change pages conversationally | **Canvas AI** |
+| Watch the whole team work in one room | **Agent Cockpit** |
 | Test an agent / watch it think | **Agent Explorer** |
 | Give site editors an always-there chat | **Assistant chat block** |
 | Automate agents on a schedule or from outside | **Drush** (and the upcoming flow/webhook layer) |

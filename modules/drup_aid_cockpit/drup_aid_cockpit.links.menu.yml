@@ -1,0 +1,6 @@
+drup_aid_cockpit.cockpit:
+  title: 'Agent Cockpit'
+  description: 'Watch and steer your Drup-AID agents.'
+  route_name: drup_aid_cockpit.cockpit
+  parent: system.admin
+  weight: -50
