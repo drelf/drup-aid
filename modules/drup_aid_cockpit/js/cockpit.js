@@ -28,12 +28,18 @@
   }
 
   // Avatar image when artwork is installed; colored-initial badge otherwise.
-  function avatarHtml(agent) {
+  // Built with DOM APIs (no HTML string interpolation) per independent review.
+  function avatarNode(agent) {
     if (agent && agent.avatar) {
-      return '<img src="' + agent.avatar + '" alt="">';
+      var img = document.createElement('img');
+      img.src = agent.avatar;
+      img.alt = '';
+      return img;
     }
-    var initial = (agent && agent.initial ? String(agent.initial) : '?').replace(/[<>&"']/g, '');
-    return '<span class="dac-initial">' + initial + '</span>';
+    var span = document.createElement('span');
+    span.className = 'dac-initial';
+    span.textContent = agent && agent.initial ? String(agent.initial) : '?';
+    return span;
   }
 
   Drupal.behaviors.drupAidCockpit = {
@@ -326,18 +332,22 @@
       row.style.setProperty('--agent-color', agent.color);
     }
     row.innerHTML =
-      '<span class="dac-msg__avatar">' + avatarHtml(agent) + '</span>' +
+      '<span class="dac-msg__avatar"></span>' +
       '<div class="dac-msg__body">' +
         '<div class="dac-msg__name"></div>' +
         '<div class="dac-msg__bubble"></div>' +
       '</div>';
+    row.querySelector('.dac-msg__avatar').appendChild(avatarNode(agent));
     row.querySelector('.dac-msg__name').textContent = agent ? agent.label : '';
     row.querySelector('.dac-msg__bubble').innerHTML = this.format(text);
     this.add(row);
   };
 
-  // Minimal, safe chat formatting: escape everything first, then allow
-  // bold, headers-as-bold, numbered-list line breaks, and paragraphs.
+  // Minimal, safe chat formatting: the ENTIRE string is HTML-escaped first;
+  // the regexes below only wrap already-escaped text in fixed literal tags
+  // (<strong>, <br>), so no input-controlled markup can survive. Reviewed
+  // 2026-06-12; a vetted renderer (e.g. DOMPurify + markdown) is the V1.1
+  // upgrade if formatting needs grow.
   Cockpit.prototype.format = function (text) {
     var el = document.createElement('div');
     el.textContent = String(text || '');
@@ -358,8 +368,9 @@
       row.style.setProperty('--agent-color', agent.color);
     }
     row.innerHTML =
-      '<span class="dac-msg__avatar">' + avatarHtml(agent) + '</span>' +
+      '<span class="dac-msg__avatar"></span>' +
       '<div class="dac-msg__body"><div class="dac-typing"><span></span><span></span><span></span></div></div>';
+    row.querySelector('.dac-msg__avatar').appendChild(avatarNode(agent));
     this.add(row);
     return row;
   };
