@@ -72,7 +72,7 @@ Full steps: see [INSTALL.md](INSTALL.md). The minions are described in [AGENTS.m
 
 ## Built with AI
 
-Drup-AID is developed with heavy AI assistance, disclosed honestly per Drupal's AI-contribution policy. Every change is human-reviewed and must be explainable in review — see [CONTRIBUTING.md](CONTRIBUTING.md).
+Drup-AID is developed with AI assistance, disclosed honestly per Drupal's AI-contribution policy. Every change is human-reviewed and must be explainable in review — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
