@@ -25,8 +25,8 @@ composer require \
   drupal/key
 ```
 
-**2. Add the Drup-AID minion + recipe** to your project: copy `modules/peak_web_agent`
-into `web/modules/custom/` and `recipes/drup_aid` into your site's `recipes/` directory
+**2. Add the Drup-AID modules + recipe** to your project: copy everything under `modules/`
+(`peak_web_agent`, `drup_aid_cockpit`) into `web/modules/custom/` and `recipes/drup_aid` into your site's `recipes/` directory
 (or require this repo as a path/VCS Composer repository).
 
 **3. Apply the recipe:**
@@ -43,6 +43,15 @@ This enables the AI rails + the Web Editor minion and registers it under the orc
 ANTHROPIC_API_KEY=sk-ant-... drush php:script scripts/setup-cloud-provider.php
 # optional: DRUPAID_MODEL=claude-sonnet-4-6 for higher quality (costs more)
 ```
+
+**6. (Optional, recommended) Enable the Agent Cockpit** — the team-chat UI:
+
+```bash
+drush en drup_aid_cockpit -y
+```
+
+Then open `/admin/drup-aid/cockpit` (permission: *access drup-aid cockpit*). It starts
+in a zero-cost demo mode; click the mode badge to run your real agents (see USING.md).
 
 **5. Use it.** Log in as an editor and chat (via the AI assistant / Canvas AI):
 > *"Change the homepage headline to 'Fiber that just works.'"*

@@ -1,5 +1,7 @@
 # Drup-AID minions (AI agents)
 
+> **See them work:** enable `drup_aid_cockpit` and open `/admin/drup-aid/cockpit` — the whole roster in one chat room (USING.md §5).
+
 Drup-AID ships its capabilities as **minions** — focused, guardrailed `ai_agents`
 agents shipped as config, routed by the Canvas AI orchestrator. Each minion is
 provider-agnostic: it runs on whatever LLM the site's `ai.settings` defaults point at.

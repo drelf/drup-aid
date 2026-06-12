@@ -68,7 +68,7 @@ Full steps: see [INSTALL.md](INSTALL.md). The minions are described in [AGENTS.m
 
 ## Status
 
-**v0.1 — early but real.** The Web Editor minion is **validated end-to-end** (it edits a live node by chat on a cloud model). More minions (page builder, security monitor) land as each is validated. Treat as a working preview, not a finished product.
+**v0.1 — early but real.** The Web Editor minion is **validated end-to-end** (it edits a live node by chat on a cloud model), and the **Agent Cockpit** (the team-chat UI, demo + live modes) ships alongside it — PHPCS/PHPStan-clean. More minions (page builder, security monitor) land as each is validated. Treat as a working preview, not a finished product.
 
 ## Built with AI
 
