@@ -5,7 +5,7 @@ both code quality and **honest AI-usage disclosure**.
 
 ## AI usage disclosure (required)
 
-This project is **developed with heavy AI assistance** (AI-Generated and AI-Assisted),
+This project is **developed with AI assistance** (AI-Generated and AI-Assisted),
 under full human review. We hold ourselves to Drupal's AI-contribution policy:
 
 - **Disclose AI usage honestly** on every PR, by Drupal's taxonomy — *No AI used* /
