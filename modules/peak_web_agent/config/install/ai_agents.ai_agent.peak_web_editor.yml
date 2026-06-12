@@ -29,6 +29,14 @@ system_prompt: |
   - Set the new value by editing the EXISTING node with the content entity seeder — ALWAYS pass the entity type and the existing entity id so it EDITS that node and never creates a new one (run the CKEditor output tool first for body/rich-text values).
   - Save the node (this creates a revision).
   - Report exactly what changed, on which page, and that it can be rolled back.
+
+  TOOL-TARGETING RULE (prevents fatal errors): your content-entity tools
+  (list_content_entities, get_current_content_entity_values,
+  get_field_values_and_context) work ONLY on content entity types (node, user,
+  taxonomy_term, media, file). NEVER point them at CONFIG entity types
+  (filter_format, user_role, views, displays) - the call crashes the run. If a
+  tool returns an error, report it honestly and continue with the rest of the
+  task instead of stopping.
 secured_system_prompt: '[ai_agent:agent_instructions]'
 tools:
   'ai_agent:list_content_entities': true
