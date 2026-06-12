@@ -28,6 +28,15 @@ Recipe (drup_aid)  ─►  ai + ai_agents + canvas_ai + ai_provider_anthropic + 
    chat: "change the homepage headline to X"  ─►  the minion edits the node (rollback-able revision)
 ```
 
+## The two-persona design
+
+Drup-AID separates **what your customers see** from **how you change what your business does**:
+
+- **The site (Drupal + AI agents)** — what visitors experience: content, support chat, knowledge base, tickets. The owner changes it by talking to the agent team. This core flavor needs no extra services.
+- **Visual automations (optional n8n layer)** — the operator's surface. Business automations — lead follow-up, marketing sequences, billing nudges — live as *visual flows*: boxes and arrows a non-developer can open, read, and safely edit. Drag, click, save — no code. This layer powers the commercial business-agent tiers, and novice-editable flows are a core part of the design, not an afterthought.
+
+The core flavor never requires the automation layer to run — but with it, the back office becomes something you can *see*.
+
 ## Quick start
 
 Requirements: a Drupal 11.3+ site (PHP 8.3+, Composer), and an Anthropic API key.
