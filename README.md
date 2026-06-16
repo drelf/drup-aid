@@ -8,6 +8,8 @@
 > **Drup-AID** = **Drup**al + **AID** (**AI D**esign). It reads like Kool-Aid on purpose — drink the Drup-AID. 🧃
 > Install it on an ordinary hosting account, point it at one LLM API key, and it comes up running: you **build and edit your site by chatting with it**. No Docker, no GPU, no local model to babysit.
 
+📺 **Free video course — the [Drup-AID Developer Academy](https://www.drup-aid.com/academy):** 16 short, code-level chapters on building AI agents on Drup-AID, from a fresh Drupal 11 dev environment to a deployed, secured minion.
+
 ---
 
 ## What it is
