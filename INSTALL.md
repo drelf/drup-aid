@@ -9,14 +9,17 @@ layer only makes outbound HTTPS calls to your LLM provider.
 - An **Anthropic API key** (`sk-ant-…`). OpenAI works too — swap `ai_provider_anthropic` → `ai_provider_openai` and set that model in the setup step.
 - Drush available (`vendor/bin/drush`).
 
-> **Patched core matters.** Install on a current core (11.3.11+ at time of writing). Composer's security audit will refuse to install the AI modules over a core with open advisories — which is also a good signal to keep core patched.
+> **Advisory block — you WILL hit this (proven on a live VPS, 2026-06-16).** Even on a *current* core (11.3.11), Composer refuses the AI-rails install because a core dependency (`guzzlehttp/psr7`) carries open security advisories, and Composer's `policy.advisories.block` halts the resolve. **`--no-audit` does NOT fix it** (that only skips the post-install report). Clear it before Step 1 — see Step 1. Keep core patched regardless.
 
 ## Steps
 
 **1. Require the AI rails** (validated versions):
 
 ```bash
-composer require \
+# Clear the advisory block first (see the note above) — otherwise this resolve fails:
+composer config --no-plugins policy.advisories.block false
+
+composer require -W \
   drupal/ai:^1.4 \
   drupal/ai_provider_anthropic \
   drupal/ai_agents \
@@ -29,13 +32,19 @@ composer require \
 (`peak_web_agent`, `drup_aid_cockpit`) into `web/modules/custom/` and `recipes/drup_aid` into your site's `recipes/` directory
 (or require this repo as a path/VCS Composer repository).
 
-**3. Apply the recipe:**
+**3. Apply the recipe** — ⚠️ two things bite here (both proven on the live VPS install):
 
 ```bash
-drush recipe recipes/drup_aid
+# • 512M PHP memory: the default 128M dies mid-apply (~step 48/52, on Canvas) with
+#   "Allowed memory size exhausted". Raise php.ini memory_limit, or pass -d as below.
+# • ABSOLUTE recipe path: the recipe lives at the project root /recipes; a relative
+#   path resolves wrong when drush --root points at the webroot ("not a directory").
+# • drush via its PHP entrypoint (not vendor/bin/drush) on restricted hosts — see gotchas.
+php -d memory_limit=512M vendor/drush/drush/drush.php recipe "$PWD/recipes/drup_aid"
 ```
 
 This enables the AI rails + the Web Editor minion and registers it under the orchestrator.
+(Validated 2026-06-16 on a clean Drupal 11.3.11 / PHP 8.4 VPS: `[OK] Drup-AID applied successfully`, minion `peak_web_editor` active.)
 
 **4. Point it at your key** (the one config step — the key is read from the environment, never committed):
 
