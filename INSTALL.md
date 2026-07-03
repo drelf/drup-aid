@@ -29,8 +29,10 @@ composer require -W \
 ```
 
 **2. Add the Drup-AID modules + recipe** to your project: copy everything under `modules/`
-(`peak_web_agent`, `drup_aid_cockpit`) into `web/modules/custom/` and `recipes/drup_aid` into your site's `recipes/` directory
-(or require this repo as a path/VCS Composer repository).
+(the out-of-the-box team — `drupaid_core`, `drupaid_master`, `drupaid_concierge`, `drupaid_seo`,
+`drupaid_content`, `drupaid_leads`, `peak_security_agent`, plus `drup_aid_cockpit` and the
+`peak_web_agent` Web Editor) into `web/modules/custom/` and `recipes/drup_aid` into your site's
+`recipes/` directory (or require this repo as a path/VCS Composer repository).
 
 **3. Apply the recipe** — ⚠️ two things bite here (both proven on the live VPS install):
 
@@ -43,8 +45,10 @@ composer require -W \
 php -d memory_limit=512M vendor/drush/drush/drush.php recipe "$PWD/recipes/drup_aid"
 ```
 
-This enables the AI rails + the Web Editor minion and registers it under the orchestrator.
-(Validated 2026-06-16 on a clean Drupal 11.3.11 / PHP 8.4 VPS: `[OK] Drup-AID applied successfully`, minion `peak_web_editor` active.)
+This enables the AI rails + the full out-of-the-box team — the master orchestrator plus
+Concierge, SEO, Content Writer, Security Monitor, and Lead Desk — along with the Web Editor
+minion, and registers them under the orchestrator.
+(Recipe validated 2026-06-16 on a clean Drupal 11.3.11 / PHP 8.4 VPS: `[OK] Drup-AID applied successfully`.)
 
 **4. Point it at your key** (the one config step — the key is read from the environment, never committed):
 
