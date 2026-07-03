@@ -1,0 +1,12 @@
+services:
+  drupaid_core.brand:
+    class: Drupal\drupaid_core\BrandManager
+    arguments: ['@config.factory']
+  drupaid_core.ai_brain:
+    class: Drupal\drupaid_core\Service\AiBrain
+    arguments:
+      - '@config.factory'
+      - '@ai.provider'
+      - '@drupaid_core.brand'
+      - '@http_client'
+      - '@logger.factory'

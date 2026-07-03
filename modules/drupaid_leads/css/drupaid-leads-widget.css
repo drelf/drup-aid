@@ -1,0 +1,137 @@
+/**
+ * @file
+ * Drup-AID floating lead-capture widget — bottom-right launcher + form panel.
+ */
+
+.dlw__launcher {
+  --dlw-accent: #1d9bf0;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--dlw-accent);
+  color: #fff;
+  font-size: 24px;
+  line-height: 56px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  z-index: 9998;
+  transition: transform 0.15s ease;
+}
+
+.dlw__launcher:hover {
+  transform: scale(1.06);
+}
+
+.dlw__panel {
+  --dlw-accent: #1d9bf0;
+  position: fixed;
+  bottom: 88px;
+  right: 20px;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  z-index: 9999;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.dlw__panel[hidden] {
+  display: none;
+}
+
+.dlw__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--dlw-accent);
+  color: #fff;
+}
+
+.dlw__title {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.dlw__close {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.dlw__body {
+  padding: 14px 16px 18px;
+}
+
+.dlw__intro {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #33404a;
+}
+
+.dlw__form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dlw__field {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d6dde3;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.dlw__field:focus {
+  border-color: var(--dlw-accent);
+}
+
+.dlw__field--area {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.dlw__error {
+  color: #c02626;
+  font-size: 13px;
+  margin: 2px 0;
+}
+
+.dlw__submit {
+  border: 0;
+  border-radius: 8px;
+  background: var(--dlw-accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 11px 14px;
+  cursor: pointer;
+}
+
+.dlw__submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.dlw__thanks {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #1a7f37;
+}

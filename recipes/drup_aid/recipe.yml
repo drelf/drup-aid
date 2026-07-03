@@ -25,8 +25,17 @@ install:
   - canvas_ai                   # the orchestrator / master agent
   # --- secrets ---
   - key                         # holds the cloud API key
-  # --- Drup-AID minion (validated end-to-end) ---
-  - peak_web_agent              # Web Editor minion: edit existing copy/images by chat
+  # --- Drup-AID: the out-of-the-box team ---
+  - drupaid_core                # shared foundation (brand settings, common services)
+  - drupaid_master              # master orchestrator — routes to the specialists below
+  - drupaid_concierge           # front-desk agent: greeting + local time/weather/news
+  - drupaid_seo                 # SEO + AI-search (GEO) auditor (prescribes fixes)
+  - drupaid_content             # Content Writer — drafts/publishes articles (revisioned)
+  - drupaid_leads               # Lead Desk — contact bubble + admin notification
+  - peak_security_agent         # Security Monitor — reads Drupal's own update/status reports
+  - drup_aid_cockpit            # "team chat" admin cockpit at /admin/drup-aid/cockpit
+  # --- Web Editor minion (edit existing copy/images by chat) ---
+  - peak_web_agent
 
 config:
   import:

@@ -1,0 +1,9 @@
+name: 'Peak Security Agent'
+type: module
+description: 'Adds a guardrailed "Security Monitor" AI sub-agent (minion) that audits the Drupal site for security issues — risky permissions, unsafe text formats, exposed/PII content, weak config — and reports findings with severity and fixes. Read-only advisor (it inspects and recommends, never changes anything). Routed by the Master Agent. Part of Peak Stack.'
+package: 'Peak Stack'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - 'ai:ai'
+  - 'ai_agents:ai_agents'
+version: '0.1.0'

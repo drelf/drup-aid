@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file
+ * Drup-AID Leads module hooks.
+ */
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_page_attachments().
+ *
+ * Places the floating lead-capture bubble on public (non-admin) pages so site
+ * visitors can leave their name, phone, email, and an optional message, which
+ * is stored and emailed to the administrator. No AI, no business claims.
+ */
+function drupaid_leads_page_attachments(array &$attachments): void {
+  // Only on the public site, never in the admin UI.
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  $attachments['#attached']['library'][] = 'drupaid_leads/widget';
+  $attachments['#attached']['drupalSettings']['drupaidLeads'] = [
+    'captureUrl' => Url::fromRoute('drupaid_leads.capture')->toString(),
+    'title' => 'Get in touch',
+    'intro' => 'Leave your details and we\'ll get right back to you.',
+  ];
+}
+
+/**
+ * Implements hook_mail().
+ */
+function drupaid_leads_mail(string $key, array &$message, array $params): void {
+  switch ($key) {
+    case 'lead_notification':
+      $message['subject'] = $params['subject'] ?? 'New Lead Submission';
+      $message['body'][] = $params['body'] ?? '';
+      break;
+
+    case 'lead_approved':
+      $message['subject'] = $params['subject'] ?? 'Your Demo Access';
+      $message['body'][] = $params['body'] ?? '';
+      break;
+  }
+}

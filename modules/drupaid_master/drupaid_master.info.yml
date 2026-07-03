@@ -1,0 +1,14 @@
+name: 'Drup-AID Master'
+type: module
+description: 'The Drup-AID master orchestrator agent — the single front door that understands a plain-language request and routes it to the right specialist sub-agent. Comes up the moment a cloud LLM key is configured.'
+package: 'Drup-AID'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - ai:ai
+  - ai_agents:ai_agents
+  - drupaid_concierge:drupaid_concierge
+  - drupaid_seo:drupaid_seo
+  - drupaid_content:drupaid_content
+  - peak_security_agent:peak_security_agent
+  - drupaid_leads:drupaid_leads
+version: '0.1.0'

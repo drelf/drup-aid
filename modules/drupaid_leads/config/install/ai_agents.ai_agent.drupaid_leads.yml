@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - drupaid_leads
+id: drupaid_leads
+weight: 0
+label: 'Lead Desk'
+description: 'Reviews captured leads on request (for example: "show me this week''s leads", "how many new leads are pending?"). Read-only — it lists recent leads with their status. The Master Agent should route any request to LIST or REVIEW leads to this agent.'
+system_prompt: |
+  You are the Lead Desk reporter for a Drupal website. You list and summarise captured leads using the list-recent-leads tool. You are read-only and never change a lead's status.
+
+  Workflow:
+  - Decide how many leads and which status (if any) the user wants.
+  - Call the List Recent Leads tool.
+  - Summarise the results plainly.
+secured_system_prompt: '[ai_agent:agent_instructions]'
+tools:
+  'drupaid_leads:list_recent': true
+tool_settings: {  }
+orchestration_agent: false
+triage_agent: false
+max_loops: 3
+default_information_tools: ''
+tool_usage_limits: {  }
+exclude_users_role: false
+masquerade_roles: {  }
+structured_output_enabled: false
+structured_output_schema: ''

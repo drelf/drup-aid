@@ -1,0 +1,10 @@
+name: 'Drup-AID Content Writer'
+type: module
+description: 'Content Writer minion — drafts and creates blog posts/articles in the business''s own voice, as rollback-able drafts. Part of Drup-AID.'
+package: 'Drup-AID'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - ai
+  - ai_agents
+  - drupal:node
+version: '0.1.0'

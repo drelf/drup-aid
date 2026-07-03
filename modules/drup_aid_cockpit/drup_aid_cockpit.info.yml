@@ -6,3 +6,4 @@ core_version_requirement: ^10.3 || ^11
 dependencies:
   - ai:ai
   - ai_agents:ai_agents
+version: '0.1.0'

@@ -1,0 +1,6 @@
+# The AI brain and the lead agent display name live centrally in
+# drupaid_core.settings. This module only configures lead handling.
+notification_email: ''
+agent_greeting: "Hi! I'd love to learn about your business and show you what our AI agents can do. What's your name?"
+rate_limit_max: 30
+rate_limit_window: 3600

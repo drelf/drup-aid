@@ -1,0 +1,4 @@
+administer drupaid:
+  title: 'Administer Drup-AID'
+  description: 'Configure Drup-AID brand identity and the shared AI brain.'
+  restrict access: true

@@ -1,0 +1,4 @@
+administer drupaid support:
+  title: 'Administer Drup-AID Support'
+  description: 'Configure n8n webhook URL, API keys, and chat settings.'
+  restrict access: true

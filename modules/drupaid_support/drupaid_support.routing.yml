@@ -1,0 +1,28 @@
+drupaid_support.chat:
+  path: '/api/support-chat'
+  defaults:
+    _controller: '\Drupal\drupaid_support\Controller\SupportChatController::chat'
+  methods: [POST, OPTIONS]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+drupaid_support.history:
+  path: '/api/support-chat/history/{session_id}'
+  defaults:
+    _controller: '\Drupal\drupaid_support\Controller\SupportChatController::history'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+    session_id: '(supp|voice)_\d+_[a-f0-9]{8}'
+  options:
+    no_cache: TRUE
+
+drupaid_support.settings:
+  path: '/admin/config/drupaid-support'
+  defaults:
+    _form: '\Drupal\drupaid_support\Form\SettingsForm'
+    _title: 'Drup-AID Support Chat'
+  requirements:
+    _permission: 'administer drupaid support'

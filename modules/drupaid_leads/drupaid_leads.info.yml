@@ -1,0 +1,11 @@
+name: 'Drup-AID Leads'
+type: module
+description: 'Front-page lead-capture agent: collects visitor info through the Drup-AID cloud-first AI brain (with a deterministic fallback flow), notifies the owner, and grants demo access on approval.'
+package: 'Drup-AID'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - drupal:system
+  - drupaid_core:drupaid_core
+  - drupaid_support:drupaid_support
+configure: drupaid_leads.settings
+version: '0.1.0'

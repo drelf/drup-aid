@@ -1,0 +1,11 @@
+name: 'Drup-AID Support'
+type: module
+description: 'Public AI support-chat endpoint (/api/support-chat) backed by the Drup-AID cloud-first AI brain. Owns the shared session/message spine and AI trace log, and can auto-create support ticket nodes. Voice, leads, and analytics build on this.'
+package: 'Drup-AID'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - drupal:system
+  - drupal:node
+  - drupaid_core:drupaid_core
+configure: drupaid_support.settings
+version: '0.1.0'

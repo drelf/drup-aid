@@ -18,6 +18,33 @@ Drup-AID is a thin, opinionated **assembly of Drupal's official AI rails** + a s
 
 The differentiator isn't "autonomous Drupal" (the initiative already ships that). It's the **turnkey packaging** — *one command, point at a key, running* — which the official project deliberately leaves to assemblers.
 
+## The out-of-the-box team
+
+A fresh install brings up a **master orchestrator** you talk to in plain language. It routes each request to the right specialist — no manual wiring:
+
+| Agent | What it does |
+|---|---|
+| 🛎️ **Concierge** | Greets visitors and gives a quick local status — time, weather, and headlines — read automatically from your site's own settings. No setup. |
+| 🔍 **SEO Specialist** | Audits any page for technical SEO + AI-search (GEO) visibility and **prescribes the exact fix — twice**: plain English for you, precise steps for your developer. |
+| ✍️ **Content Writer** | Drafts and publishes articles in your business's voice, as rollback-able revisions. |
+| 🛡️ **Security Monitor** | Reads Drupal's *own* update and status reports — pending security releases, exposure warnings, risky account settings, form-spam gaps — and prescribes each fix, plain + technical. |
+| 📥 **Lead Desk** | Drops a friendly contact bubble on your site; a visitor's name, phone, and email get emailed straight to you and logged for review. |
+
+Two principles run through all of them: they **prescribe fixes, they don't act behind your back** (read-only agents return the exact fix; the Content Writer is the safe exception, because Drupal content is revisioned), and every recommendation comes in **plain English *and* technical** tiers.
+
+### How the pieces map — the hot rod
+
+<p align="center">
+  <img src="assets/architecture-hotrod-labeled.png" alt="Drup-AID architecture as a hot rod: LLM engine, MCP intake, n8n transmission, Drupal chassis" width="820">
+</p>
+
+- **Drupal** is the **chassis** — the proven, secure foundation everything bolts to.
+- The **LLM** is the **engine** — the brain that makes decisions and generates content.
+- **MCP** is the **intake + universal couplers** — the standard connector that pulls in context and tools and plugs them into the engine.
+- **n8n** is the **transmission** — the automation that routes power into finished results.
+
+See **[ARCHITECTURE.md](ARCHITECTURE.md)** for the wiring.
+
 ## How it works
 
 The one component that ever needed special infrastructure was a *local* LLM. Swap that for a **cloud provider** and the whole thing becomes pure PHP making outbound HTTPS calls — so it installs like any normal Drupal site:
@@ -70,7 +97,7 @@ Full steps: see [INSTALL.md](INSTALL.md). The minions are described in [AGENTS.m
 
 ## Status
 
-**v0.1 — early but real.** The Web Editor minion is **validated end-to-end** (it edits a live node by chat on a cloud model), and the **Agent Cockpit** (the team-chat UI, demo + live modes) ships alongside it — PHPCS/PHPStan-clean. More minions (page builder, security monitor) land as each is validated. Treat as a working preview, not a finished product.
+**v0.1.0 — early but real.** The **out-of-the-box team** now ships — master orchestrator + Concierge, SEO, Content Writer, Security Monitor, and Lead Desk — alongside the **Web Editor minion** (validated end-to-end: it edits a live node by chat on a cloud model) and the **Agent Cockpit** (team-chat UI, demo + live modes). PHPCS + PHPStan clean. It works and it's clean, but it isn't customer-proven yet — **1.0 is reserved for a verified real-world install.** More minions (page builder, analytics, voice) land as each is validated. Treat as a working preview, not a finished product.
 
 ## Built with AI
 

@@ -1,0 +1,180 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the drupaid_support module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function drupaid_support_schema(): array {
+  $schema = [];
+
+  // Chat sessions table — stores per-session state (tier, device, OS, etc.)
+  $schema['drupaid_sessions'] = [
+    'description' => 'Stores AI support chat session state.',
+    'fields' => [
+      'session_id' => [
+        'description' => 'Unique session identifier.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ],
+      'state_data' => [
+        'description' => 'JSON-encoded session state (tier, device, os, ticket_nid, customer_name, steps_tried).',
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+      'ip_address' => [
+        'description' => 'Customer IP address for rate limiting.',
+        'type' => 'varchar',
+        'length' => 45,
+        'not null' => FALSE,
+      ],
+      'created' => [
+        'description' => 'Unix timestamp when session started.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'changed' => [
+        'description' => 'Unix timestamp of last activity.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['session_id'],
+    'indexes' => [
+      'changed' => ['changed'],
+      'ip_address' => ['ip_address'],
+    ],
+  ];
+
+  // Chat messages table — stores full conversation history.
+  $schema['drupaid_messages'] = [
+    'description' => 'Stores individual AI support chat messages.',
+    'fields' => [
+      'id' => [
+        'description' => 'Auto-increment message ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'session_id' => [
+        'description' => 'Session this message belongs to.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ],
+      'role' => [
+        'description' => 'Message role: user or ai.',
+        'type' => 'varchar',
+        'length' => 8,
+        'not null' => TRUE,
+      ],
+      'message' => [
+        'description' => 'Message content.',
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => TRUE,
+      ],
+      'created' => [
+        'description' => 'Unix timestamp.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'session_id' => ['session_id'],
+      'session_created' => ['session_id', 'created'],
+    ],
+  ];
+
+  // AI reasoning trace — one row per support turn. Read by drupaid_analytics.
+  $schema['drupaid_ai_log'] = [
+    'description' => 'AI reasoning trace for support/lead/voice turns.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'session_id' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => FALSE,
+      ],
+      'prompt_payload' => [
+        'description' => 'JSON payload sent to the AI brain.',
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+      'raw_response' => [
+        'description' => 'Raw model reply.',
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+      'extracted_state' => [
+        'description' => 'JSON state delta parsed from the reply.',
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+      'cleaned_response' => [
+        'description' => 'User-facing reply text.',
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+      'response_time_ms' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'model' => [
+        'description' => 'Brain source/model (cloud, n8n, …).',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => FALSE,
+      ],
+      'tokens_used' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'created' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'session_id' => ['session_id'],
+      'created' => ['created'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function drupaid_support_uninstall(): void {
+  $schema = \Drupal::database()->schema();
+  $schema->dropTable('drupaid_sessions');
+  $schema->dropTable('drupaid_messages');
+  $schema->dropTable('drupaid_ai_log');
+}

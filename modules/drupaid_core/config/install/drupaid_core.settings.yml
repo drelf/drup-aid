@@ -1,0 +1,20 @@
+# Tenant identity + AI-brain settings shared by the whole Drup-AID support suite.
+# setup-branding.php (recipe post-apply) and tenant.yml populate these per install.
+# Defaults are intentionally neutral so a fresh box reads cleanly before branding runs.
+brand_name: 'this site'
+company_name: ''
+support_email: ''
+support_phone: ''
+site_url: ''
+# Conversational agent display names used in support / lead chat system prompts.
+support_agent_name: 'the support assistant'
+lead_agent_name: 'the assistant'
+# AI brain. Cloud-first: when n8n_enabled is FALSE (default) every conversational
+# turn is answered by the Drupal AI module's default chat provider — the box works
+# the moment a cloud LLM key is configured, with NO n8n. Set n8n_enabled to TRUE
+# and provide a webhook to route support reasoning through an n8n workflow instead.
+n8n_enabled: false
+n8n_webhook_url: ''
+n8n_api_key: ''
+# Origins allowed to call the public chat/API endpoints (CORS). Empty = same-origin only.
+cors_allowed_origins: {  }

@@ -1,0 +1,19 @@
+/**
+ * Drup-AID Leads — admin status pills. Replaces the inline color styles the
+ * original lead admin table carried.
+ */
+.drupaid-lead-status {
+  font-weight: 600;
+}
+
+.drupaid-lead-status--pending {
+  color: #b45309;
+}
+
+.drupaid-lead-status--approved {
+  color: #15803d;
+}
+
+.drupaid-lead-status--rejected {
+  color: #b91c1c;
+}

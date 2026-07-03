@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * Drup-AID Support — public AI support-chat endpoint, session/ticket spine.
+ *
+ * Provides the /api/support-chat endpoint backed by drupaid_core's cloud-first
+ * AI brain. Stores sessions/messages and can auto-create support ticket nodes.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function drupaid_support_help(string $route_name, RouteMatchInterface $route_match): string {
+  if ($route_name === 'help.page.drupaid_support') {
+    return '<p>' . t('Provides the AI support-chat endpoint at <code>/api/support-chat</code>. The conversational brain (cloud provider, optional n8n) and brand identity are configured at <a href=":url">Administer Drup-AID</a>.', [':url' => '/admin/config/drupaid']) . '</p>';
+  }
+  return '';
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Removes chat sessions, messages, and AI traces older than the configured
+ * retention window (default 30 days).
+ */
+function drupaid_support_cron(): void {
+  $days = (int) (\Drupal::config('drupaid_support.settings')->get('session_retention_days') ?: 30);
+  $cutoff = \Drupal::time()->getRequestTime() - ($days * 24 * 3600);
+  $db = \Drupal::database();
+
+  $old_sessions = $db->select('drupaid_sessions', 's')
+    ->fields('s', ['session_id'])
+    ->condition('changed', $cutoff, '<')
+    ->execute()
+    ->fetchCol();
+
+  if (!empty($old_sessions)) {
+    $db->delete('drupaid_messages')
+      ->condition('session_id', $old_sessions, 'IN')
+      ->execute();
+    $db->delete('drupaid_sessions')
+      ->condition('session_id', $old_sessions, 'IN')
+      ->execute();
+    if ($db->schema()->tableExists('drupaid_ai_log')) {
+      $db->delete('drupaid_ai_log')
+        ->condition('session_id', $old_sessions, 'IN')
+        ->execute();
+    }
+    \Drupal::logger('drupaid_support')->info('Cleaned up @count old chat sessions.', ['@count' => count($old_sessions)]);
+  }
+}

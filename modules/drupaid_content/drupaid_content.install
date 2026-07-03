@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Install/uninstall hooks for the Drup-AID Content Writer module.
+ */
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\node\Entity\NodeType;
+
+/**
+ * Implements hook_install().
+ *
+ * Guarantees an "Article" content type with a Body field exists, so the Content
+ * Writer always has somewhere to write regardless of the base install profile.
+ * Idempotent — does nothing if the standard profile already provides Article.
+ */
+function drupaid_content_install(): void {
+  if (!NodeType::load('article')) {
+    NodeType::create([
+      'type' => 'article',
+      'name' => 'Article',
+      'description' => 'Use articles for blog posts, news, and time-sensitive content.',
+      'new_revision' => TRUE,
+    ])->save();
+  }
+
+  if (!FieldStorageConfig::loadByName('node', 'body')) {
+    FieldStorageConfig::create([
+      'field_name' => 'body',
+      'entity_type' => 'node',
+      'type' => 'text_with_summary',
+      'cardinality' => 1,
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'article', 'body')) {
+    FieldConfig::create([
+      'field_name' => 'body',
+      'entity_type' => 'node',
+      'bundle' => 'article',
+      'label' => 'Body',
+      'settings' => ['display_summary' => TRUE],
+    ])->save();
+  }
+
+  $displays = \Drupal::service('entity_display.repository');
+  $displays->getFormDisplay('node', 'article', 'default')
+    ->setComponent('body', ['type' => 'text_textarea_with_summary', 'weight' => 1])
+    ->save();
+  $displays->getViewDisplay('node', 'article', 'default')
+    ->setComponent('body', ['type' => 'text_default', 'label' => 'hidden', 'weight' => 1])
+    ->save();
+}

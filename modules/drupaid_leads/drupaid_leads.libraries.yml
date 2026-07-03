@@ -1,0 +1,17 @@
+admin:
+  version: 1.0.0
+  css:
+    theme:
+      css/drupaid-leads-admin.css: {}
+
+widget:
+  version: 1.0.0
+  css:
+    theme:
+      css/drupaid-leads-widget.css: {}
+  js:
+    js/drupaid-leads-widget.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once

@@ -1,0 +1,66 @@
+drupaid_leads.capture:
+  path: '/api/lead-capture'
+  defaults:
+    _controller: '\Drupal\drupaid_leads\Controller\LeadCaptureController::capture'
+  methods: [POST, OPTIONS]
+  requirements:
+    # Public by design: site visitors submit their own contact details. The
+    # controller validates and length-limits input; there is no privileged data.
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+drupaid_leads.chat:
+  path: '/api/lead-chat'
+  defaults:
+    _controller: '\Drupal\drupaid_leads\Controller\LeadChatController::chat'
+  methods: [POST, OPTIONS]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+drupaid_leads.history:
+  path: '/api/lead-chat/history/{session_id}'
+  defaults:
+    _controller: '\Drupal\drupaid_leads\Controller\LeadChatController::history'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+    session_id: 'lead_\d+_[a-f0-9]{16,32}'
+  options:
+    no_cache: TRUE
+
+drupaid_leads.admin:
+  path: '/admin/leads'
+  defaults:
+    _controller: '\Drupal\drupaid_leads\Controller\LeadAdminController::list'
+    _title: 'Lead Submissions'
+  requirements:
+    _permission: 'administer drupaid leads'
+
+drupaid_leads.approve:
+  path: '/admin/leads/approve/{lead_id}'
+  defaults:
+    _controller: '\Drupal\drupaid_leads\Controller\LeadAdminController::approve'
+  requirements:
+    _permission: 'administer drupaid leads'
+    _csrf_token: 'TRUE'
+    lead_id: '\d+'
+
+drupaid_leads.reject:
+  path: '/admin/leads/reject/{lead_id}'
+  defaults:
+    _controller: '\Drupal\drupaid_leads\Controller\LeadAdminController::reject'
+  requirements:
+    _permission: 'administer drupaid leads'
+    _csrf_token: 'TRUE'
+    lead_id: '\d+'
+
+drupaid_leads.settings:
+  path: '/admin/config/drupaid-leads'
+  defaults:
+    _form: '\Drupal\drupaid_leads\Form\LeadSettingsForm'
+    _title: 'Lead Agent Settings'
+  requirements:
+    _permission: 'administer drupaid leads'

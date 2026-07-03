@@ -1,0 +1,10 @@
+{
+    "name": "drelf/peak_security_agent",
+    "description": "Guardrailed read-only Security Monitor AI sub-agent (minion) for the Master Agent — audits a Drupal site for security issues and reports fixes. Part of Peak Stack.",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "drupal/ai": "*",
+        "drupal/ai_agents": "*"
+    }
+}

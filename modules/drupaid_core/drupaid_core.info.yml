@@ -1,0 +1,9 @@
+name: 'Drup-AID Core'
+type: module
+description: 'Shared foundation for the Drup-AID support suite: tenant brand/identity config and a cloud-first AI brain (Drupal AI module by default, optional n8n workflow). Every Drup-AID support minion reads its brand strings and gets its AI completions from here, so no module hardcodes a company name, email, phone, or LLM endpoint.'
+package: 'Drup-AID'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - drupal:system
+  - ai:ai
+version: '0.1.0'

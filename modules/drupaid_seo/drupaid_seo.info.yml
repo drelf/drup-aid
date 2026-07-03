@@ -1,0 +1,11 @@
+name: 'Drup-AID SEO'
+type: module
+description: 'Technical-SEO, analytics, and AI-search (GEO) specialist agent. Automates what is automatable (URL/site audits, structured-data + Core Web Vitals + GEO checks) and GUIDES the user through what is manual (GTM event tracking, GSC/GA4 OAuth, Looker dashboards, keyword/competitive research) via built-in playbooks.'
+package: 'Drup-AID'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - drupal:system
+  - ai:ai
+  - ai_agents:ai_agents
+  - drupaid_core:drupaid_core
+version: '0.1.0'

@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Drup-AID Core — shared brand identity and AI brain for the support suite.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function drupaid_core_help($route_name, RouteMatchInterface $route_match): string {
+  if ($route_name === 'help.page.drupaid_core') {
+    return '<p>' . t('Provides the shared brand identity (company name, support email/phone, site URL, agent names) and the cloud-first AI brain used by every Drup-AID support minion. Configure it at <a href=":url">Administer Drup-AID</a>.', [':url' => '/admin/config/drupaid']) . '</p>';
+  }
+  return '';
+}

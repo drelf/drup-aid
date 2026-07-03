@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the drupaid_leads module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function drupaid_leads_schema(): array {
+  $schema = [];
+
+  $schema['drupaid_leads'] = [
+    'description' => 'Stores lead submissions from the front-page agent chat.',
+    'fields' => [
+      'id' => [
+        'description' => 'Auto-increment lead ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'session_id' => [
+        'description' => 'Chat session ID for this lead.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ],
+      'name' => [
+        'description' => 'Contact name.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'company' => [
+        'description' => 'Company name.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'email' => [
+        'description' => 'Contact email.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'phone' => [
+        'description' => 'Contact phone number.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => FALSE,
+      ],
+      'needs' => [
+        'description' => 'What the lead is looking for (free text).',
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+      'status' => [
+        'description' => 'Lead status: pending, approved, rejected.',
+        'type' => 'varchar',
+        'length' => 16,
+        'not null' => TRUE,
+        'default' => 'pending',
+      ],
+      'access_code' => [
+        'description' => 'Generated demo access code (set on approval).',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => FALSE,
+      ],
+      'ip_address' => [
+        'description' => 'Visitor IP address.',
+        'type' => 'varchar',
+        'length' => 45,
+        'not null' => FALSE,
+      ],
+      'created' => [
+        'description' => 'Unix timestamp when lead was submitted.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'changed' => [
+        'description' => 'Unix timestamp of last status change.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'session_id' => ['session_id'],
+      'status' => ['status'],
+      'email' => ['email'],
+      'created' => ['created'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function drupaid_leads_uninstall(): void {
+  \Drupal::database()->schema()->dropTable('drupaid_leads');
+}
+
+/**
+ * Add the phone column for direct name/phone/email lead capture.
+ */
+function drupaid_leads_update_10001(): void {
+  $schema = \Drupal::database()->schema();
+  if (!$schema->fieldExists('drupaid_leads', 'phone')) {
+    $schema->addField('drupaid_leads', 'phone', [
+      'description' => 'Contact phone number.',
+      'type' => 'varchar',
+      'length' => 32,
+      'not null' => FALSE,
+    ]);
+  }
+}

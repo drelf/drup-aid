@@ -1,0 +1,7 @@
+drupaid_core.settings:
+  path: '/admin/config/drupaid'
+  defaults:
+    _form: 'Drupal\drupaid_core\Form\BrandSettingsForm'
+    _title: 'Drup-AID'
+  requirements:
+    _permission: 'administer drupaid'

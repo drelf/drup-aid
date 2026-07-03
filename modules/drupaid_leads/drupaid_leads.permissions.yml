@@ -1,0 +1,4 @@
+administer drupaid leads:
+  title: 'Administer Drup-AID Leads'
+  description: 'View, approve, and reject lead submissions.'
+  restrict access: true

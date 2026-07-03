@@ -1,0 +1,40 @@
+drupaid_core.settings:
+  type: config_object
+  label: 'Drup-AID Core settings'
+  mapping:
+    brand_name:
+      type: label
+      label: 'Brand name'
+    company_name:
+      type: label
+      label: 'Legal company name'
+    support_email:
+      type: email
+      label: 'Support email address'
+    support_phone:
+      type: string
+      label: 'Support phone number'
+    site_url:
+      type: string
+      label: 'Public site URL'
+    support_agent_name:
+      type: label
+      label: 'Support agent display name'
+    lead_agent_name:
+      type: label
+      label: 'Lead agent display name'
+    n8n_enabled:
+      type: boolean
+      label: 'Route AI reasoning through n8n'
+    n8n_webhook_url:
+      type: string
+      label: 'n8n webhook URL'
+    n8n_api_key:
+      type: string
+      label: 'n8n API key'
+    cors_allowed_origins:
+      type: sequence
+      label: 'CORS allowed origins'
+      sequence:
+        type: string
+        label: 'Origin'
